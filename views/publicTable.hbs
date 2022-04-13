@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Public Page</a>
+</nav>
+
+<div>
+  <h2>Подразделение: {{ dep }}</h2>
+  <table style = "border: 1px solid grey">
+    <tr>
+        <th rowspan="2" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][0]}}</th>
+        <th rowspan="2" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][1]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[0][2]}}</th>
+        <th colspan="3" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][3]}}</th>
+        <th colspan="3" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][6]}}</th>
+        <th colspan="3" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][9]}}</th>
+        <th colspan="3" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][12]}}</th>
+        <th colspan="3" style = "border: 1px solid grey;text-align:center;">{{data.header.[0][15]}}</th>
+    </tr> <!--ряд с ячейками заголовков-->
+    <tr>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][2]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][3]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][4]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][5]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][6]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][7]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][8]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][9]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][10]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][11]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][12]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][13]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][14]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][15]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][16]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][17]}}</th>
+        <th style = "border: 1px solid grey;text-align:center;">{{data.header.[1][18]}}</th>
+    </tr> <!--ряд с ячейками заголовков-->
+    <tr>
+      {{#each data.body}}
+        {{#if this.[0]}}
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[0]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[1]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[2]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[3]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[4]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[5]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[6]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[7]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[8]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[9]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[10]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[11]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[12]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[13]}}</td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[14]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[15]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;"></td>
+            <td rowspan="2" style = "border: 1px solid grey;text-align:center;">{{this.[17]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[18]}}</td>
+        {{else}}
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[3]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[6]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[9]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[12]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;"></td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[16]}}</td>
+            <td style = "border: 1px solid grey;text-align:center;">{{this.[18]}}</td>
+        {{/if}}
+      {{/each}}
+    </tr> <!--ряд с ячейками тела таблицы-->
+  </table>
+</div>

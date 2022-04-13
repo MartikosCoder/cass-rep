@@ -1,19 +1,21 @@
 {
-  "name": "report",
+  "name": "iikoreporter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "0.26.1",
-    "body-parser": "^1.19.2",
-    "cookie-parser": "^1.4.6",
-    "express": "^4.17.3",
-    "express-handlebars": "^6.0.3",
-    "fast-xml-parser": "^4.0.7"
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "fast-xml-parser": "^4.0.7",
+    "axios": "^0.26.1",
+    "node-fetch": "^1.1.0"
   }
 }
