@@ -13,21 +13,19 @@ const initContext = async () => {
   context.targets = new Targets();
   context.purchases = new Purchases();
   context.links = new Links();
+  context.iiko = new Iiko();
   await formData(context);
   return context;
 }
 
 const formData = async (context) => {
   try {
-    let iiko = new Iiko();
-    await iiko.getToken();
-    await context.branches.update(iiko);
-    await context.categories.update(iiko);
-    //await context.cashiers.update(iiko);
+    await context.iiko.getToken();
+    await context.branches.update(context.iiko);
+    await context.categories.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
-    //context.purchases.updateTargets(context.targets.getAllTargets(), context.cashiers.getAllCashiers());
     context.links.generate(context.targets.getAllTargets());
-    await iiko.close();
+    await context.iiko.close();
   } catch (e) {
     console.log(e);
   }
@@ -35,7 +33,7 @@ const formData = async (context) => {
 
 const getColumnNum = (targets, name) => {
   let i = 0;
-  for (const target of targets) {
+  for (const target of targets.targets) {
     if (target.dish === name) {
       return i;
     }
@@ -44,85 +42,126 @@ const getColumnNum = (targets, name) => {
   return null;
 }
 
-const duplicateRow = (arr, n) => {
-  let i = arr.length;
-  arr.push(arr[i - 1]);
-  while (i > n) {
-    arr[i] = arr[i-1];
-    i -= 1;
+const formPublicData = (context, dep) => {
+  const emptyRow = [0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true, 'border: 1px solid grey;text-align:center;color: blue;font-weight: bold;'];
+  let data = {
+    header: {
+      up: ["№", "ФИО кассира", "Чеки", "", "", "", "", "Итог продаж"],
+      down: ["Факт", "Цель на 100 чеков", "Факт по категории", "Факт на 100 чеков",
+        "Цель 1 (на 100 чеков)", "Цель 2 (на 100 чеков)", "Факт", "Оклонение от цели"]
+    },
+    dep: dep,
+    body: [],
+    addon: ""
   }
-}
-
-const getPublicData = (context, dep) => {
-  const emptyRow = [0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  let data = {};
-  data.header = [
-    ["№", "ФИО кассира", "Чеки", "", "", "", "", "", "", "", "", "", "", "", "", "Итог продаж", "", "", ""],
-    ["", "", "Факт", "Цель на 100 чеков", "Факт по категории", "Факт на 100 чеков", "Цель на 100 чеков", "Факт по категории", "Факт на 100 чеков",
-      "Цель на 100 чеков", "Факт по категории", "Факт на 100 чеков", "Цель на 100 чеков", "Факт по категории", "Факт на 100 чеков",
-      "Цель 1 (на 100 чеков)", "Цель 2 (на 100 чеков)", "Факт", "Оклонение от цели"]
-  ];
-  let y = 1;
-  for (const target of context.targets.getAllTargets().filter(el => el.department === dep)) {
-    data.header[0][y*3] = target.dish;
+  let y = 3;
+  let body = [];
+  const targets = context.targets.getAllTargets().find(el => el.department === dep)
+  if (!targets) {
+    return data
+  }
+  for (const target of targets['targets']) {
+    data.header.up[y] = target.surname;
     y += 1;
   }
-  data.body = [];
-  for (const purchase of context.purchases.getPurchases()) {
-    if (purchase.department === dep) {
-      let flag = false;
-      let i = 0;
-      for (const row of data.body) {
-        if (row[1] === purchase.cashier) {
-          flag = true;
-          break;
+  const filtered = context.purchases.getPurchases().find(el => el.department === dep);
+  if (filtered) {
+    for (const person of filtered.persons) {
+      for (const trade of person.cart) {
+        let flag = false;
+        let i = 0;
+        for (const row of body) {
+          if (row[1] === person.cashier) {
+            flag = true;
+            break;
+          }
+          i += 1;
         }
-        i += 1;
-      }
-      if (!flag) {
-        data.body.push(emptyRow);
-        data.body[i][0] = i + 1;
-        data.body[i][1] = purchase.cashier;
-      }
-      for (const item of purchase.cart) {
-        const target = context.targets.getAllTargets().find(el => el.department === dep
-          && el.targets.dish === item.dish);
+        if (!flag) {
+          body.push([...emptyRow]);
+          body[i][0] = i + 1;
+          body[i][1] = person.cashier;
+          const items = context.targets.getAllTargets().find(el => el.department === dep);
+          if (items) {
+            for (const item of items.targets) {
+              let c = getColumnNum(items, item.dish);
+              body[i][4 + (c * 3)] = 0;
+              body[i][3 + (c * 3)] = item.target1;
+              body[i][5 + (c * 3)] = item.target2;
+            }
+          }
+        }
+        body[i][2] += trade.count;
+        const target = targets.targets.find(el => el.dish === trade.dish);
         if (target) {
-          data.body[i][2] += item.count;
-          let c = getColumnNum(context.targets.getAllTargets().find(el => el.department === dep), item.dish);
-          data.body[i][4 + (c * 3)] += item.count;
-          data.body[i][3 + (c * 3)] = target.target1;
-          data.body[i][5 + (c * 3)] = target.target2;
+          let c = getColumnNum(context.targets.getAllTargets().find(el => el.department === dep), trade.dish);
+          body[i][4 + (c * 3)] += trade.count;
         }
       }
     }
   }
-  let i = 0;
-  const n = data.body.length;
-  while (i < n) {
-    duplicateRow(data.body, i * 2);
-    data.body[i * 2 + 1][0] = 0;
-    data.body[i * 2 + 1][3] = data.body[i * 2][5];
-    data.body[i * 2 + 1][6] = data.body[i * 2][8];
-    data.body[i * 2 + 1][9] = data.body[i * 2][11];
-    data.body[i * 2 + 1][12] = data.body[i * 2][14];
-    data.body[i * 2][5] = Math.floor(data.body[i * 2][4] / data.body[i * 2][2]);
-    data.body[i * 2 + 1][5] = data.body[i * 2][5];
-    data.body[i * 2][8] = Math.floor(data.body[i * 2][7] / data.body[i * 2][2]);
-    data.body[i * 2 + 1][8] = data.body[i * 2][8];
-    data.body[i * 2][11] = Math.floor(data.body[i * 2][10] / data.body[i * 2][2]);
-    data.body[i * 2 + 1][11] = data.body[i * 2][11];
-    data.body[i * 2][14] = Math.floor(data.body[i * 2][13] / data.body[i * 2][2]);
-    data.body[i * 2 + 1][14] = data.body[i * 2][14];
-    data.body[i * 2][17] = data.body[i * 2][5] + data.body[i * 2][8] + data.body[i * 2][11] + data.body[i * 2][14];
-    data.body[i * 2 + 1][17] = data.body[i * 2][17];
-    data.body[i * 2][15] = data.body[i * 2][3] + data.body[i * 2][6] + data.body[i * 2][9] + data.body[i * 2][12];
-    data.body[i * 2][16] = "";
-    data.body[i * 2 + 1][16] = data.body[i * 2 + 1][3] + data.body[i * 2 + 1][6] + data.body[i * 2 + 1][9] + data.body[i * 2 + 1][12];
-    data.body[i * 2 + 1][15] = "";
-    data.body[i * 2][18] = data.body[i * 2][17] - data.body[i * 2][15];
-    data.body[i * 2 + 1][18] = data.body[i * 2 + 1][17] - data.body[i * 2 + 1][16];
-    i += 1;
+  for (const i in body) {
+    let row1 = [...body[i]];
+    let row2 = [...emptyRow];
+    row2[3] = body[i][5];
+    row1[5] = Math.floor(row1[4] * 100 / row1[2]);
+    row2[6] = body[i][8];
+    row1[8] = Math.floor(row1[7] * 100/ row1[2]);
+    row2[9] = body[i][11];
+    row1[11] = Math.floor(row1[10] * 100/ row1[2]);
+    row2[12] = body[i][14];
+    row1[14] = Math.floor(row1[13] * 100 / row1[2]);
+    row1[17] = row1[5] + row1[8] + row1[11] + row1[14];
+    row1[15] = row1[3] + row1[6] + row1[9] + row1[12];
+    row2[16] = row2[3] + row2[6] + row2[9] + row2[12];
+    row1[18] = row1[17] - row1[15];
+    if (row1[18] < 0) {
+      row1[20] = 'border: 1px solid grey;text-align:center;color: darkred;font-weight: bold;background-color: hotpink;';
+    }
+    row2[18] = row1[17] - row2[16];
+    if (row2[18] < 0) {
+      row2[20] = 'border: 1px solid grey;text-align:center;color: darkred;font-weight: bold;background-color: hotpink;';
+    }
+    row2[19] = false;
+    data.body.push([...row1]);
+    data.body.push([...row2]);
+  }
+  return data;
+}
+
+const getPublicData = async (context, dep, startDate = null, endDate = null) => {
+  let tempContext = {
+    branches: context.branches,
+    categories: context.categories,
+    targets: context.targets,
+    links: context.links,
+    iiko: context.iiko
+  }
+  if (!startDate && !endDate) {
+    tempContext.purchases = context.purchases;
+  } else {
+    if (!startDate) {
+      let date = new Date(endDate);
+      date.setDate(date.getDate() - 1);
+      startDate = date.toJSON().substring(0, 10);
+    }
+    if (!endDate) {
+      let date = new Date(startDate);
+      date.setDate(date.getDate() + 1);
+      endDate = date.toJSON().substring(0, 10);
+    } else {
+      let date = new Date(endDate);
+      date.setDate(date.getDate() + 1);
+      endDate = date.toJSON().substring(0, 10);
+    }
+    await tempContext.iiko.getToken();
+    tempContext.purchases = new Purchases();
+    await tempContext.purchases.updatePurchases(tempContext.iiko, `${startDate}T00:00:00.000`, `${endDate}T00:00:00.000`);
+    await tempContext.iiko.close();
+  }
+  const data = formPublicData(tempContext, dep);
+  if (startDate || endDate) {
+    data.addon = 'Отчет за период: ' + startDate + ' - ' + endDate;
   }
   return data;
 }
@@ -130,9 +169,27 @@ const getPublicData = (context, dep) => {
 const getProtectedData = (context) => {
   let data = [];
   for (const target of context.targets.getAllTargets()) {
-    let row = [target.department, context.links.getLink(target.department)];
+
+    let row = {
+      department: target.department,
+      link: context.links.getLink(target.department)
+    };
+    let i = 1;
     for (const dish of target.targets) {
-      row.push(dish.dish, dish.surname, dish.target1, dish.target2);
+      const cats = [];
+      for (const cat of context.categories.getCategories()) {
+        if (cat === dish.dish) {
+          cats.push({name: cat, checked: true});
+        } else {
+          cats.push({name: cat, checked: false});
+        }
+      }
+      row['categories_' + i] = cats;
+      row['dish_' + i] = dish.dish;
+      row['surname_' + i] = dish.surname;
+      row['target1_' + i] = dish.target1;
+      row['target2_' + i] = dish.target2;
+      i += 1;
     }
     data.push(row);
   }
@@ -142,5 +199,6 @@ const getProtectedData = (context) => {
 module.exports = {
   initContext,
   getPublicData,
-  getProtectedData
+  getProtectedData,
+  formPublicData
 }

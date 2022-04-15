@@ -1,33 +1,44 @@
 const { timeSpan } = require('../consts/cron');
 const { Iiko } = require("../objects/iiko");
-const {getPublicData} = require("./context");
+const { formPublicData } = require("./context");
 
 const updateLinks = (context, app) => {
   for (const link of context.links.getLinks()) {
     app.get(link.link, (req, res) => {
-      res.render('publicTable', {data: getPublicData(context, link.department), dep: link.department});
+      const data = formPublicData(context, link.department);
+      res.render('publicTable', { data });
     });
+  }
+}
+
+const syncData = async(context) => {
+  try {
+    await context.iiko.getToken();
+    await context.branches.update(context.iiko);
+    await context.categories.update(context.iiko);
+    await context.purchases.updatePurchases(context.iiko);
+    context.links.update(context.targets.getAllTargets());
+    await context.iiko.close();
+    return true;
+  } catch (e) {
+    if (context.iiko.token) {
+      await context.iiko.close();
+    }
+    return false;
   }
 }
 
 const runWorker = async (context, app) => {
   let timeRun = 0;
   while (timeRun < Date.now()) {
-    const iiko = new Iiko;
-    await iiko.getToken();
-
-    await context.branches.update(iiko);
-    await context.categories.update(iiko);
-    // this.context.targets.makeEmptyTargets(this.context.branches.getBranches());  //TODO удаление целей, для удаленных категорий
-    context.purchases.updateTargets(context.targets.getAllTargets());
-    await context.purchases.updatePurchases(iiko);
-    context.links.update(context.targets.getAllTargets());
-    await iiko.close();
-    timeRun = Date.now() + timeSpan;
-    updateLinks(context, app);
+    if (await syncData(context)) {
+      timeRun = Date.now() + timeSpan;
+      updateLinks(context, app);
+    }
   }
 }
 
 module.exports = {
-  runWorker
+  runWorker,
+  syncData
 }

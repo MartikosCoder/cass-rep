@@ -1,10 +1,7 @@
 const axios = require('axios');
 const { XMLParser } = require('fast-xml-parser');
 
-const getRepo = async (lastCheck, token, iikoServer) => {
-  const date = new Date();
-  date.setDate(date.getDate() + 1);
-  const strDate = date.toJSON().substring(0, 10) + 'T00:00:00.000';
+const getRepo = async (startDate, endDate, token, iikoServer) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -26,8 +23,8 @@ const getRepo = async (lastCheck, token, iikoServer) => {
       "OpenDate.Typed": {
         filterType: "DateRange",
         periodType: "CUSTOM",
-        from: lastCheck,
-        to: `${strDate}`
+        from: startDate,
+        to: endDate
       },
       "DeletedWithWriteoff": {
         filterType: "ExcludeValues",

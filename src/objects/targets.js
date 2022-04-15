@@ -30,12 +30,19 @@ class Targets {
     };
   }
 
-  setDepartmentDishTarget(department, n, dish, target1, target2, surname) {
-    let item = this.allTargets.find(el => el.department === department);
-    item.targets[n].dish = dish;
-    item.targets[n].surname = surname;
-    item.targets[n].target1 = target1;
-    item.targets[n].target2 = target2;
+  setDishTarget(department, n, dish, target1, target2, surname) {
+    const newtarget = {
+      dish,
+      surname,
+      target1,
+      target2
+    }
+    for (const j in this.allTargets) {
+      if (this.allTargets[j].department === department) {
+        this.allTargets[j].targets[n] = newtarget;
+        break;
+      }
+    }
   }
 
   getAllTargets() {

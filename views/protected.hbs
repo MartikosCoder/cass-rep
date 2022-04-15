@@ -2,15 +2,16 @@
     <a class="navbar-brand" href="#">IIKO reporter AdminPanel</a>
 </nav>
 
+<script id="select-template" type="text/x-handlebars-template">
+    {{#each categories}}
+        <option value={{this}}>{{this}}</option>
+    {{/each}}
+</script>
+
 <div>
     <h2>Установите цели для подразделений</h2>
     <form method="POST" action="/protected">
-        <select id="sel_{{this.[0]}}_1" value={{this.[2]}}>
-        {{#each categories}}
-            <option value={{this}}>{{this}}</option>
-        {{/each}}
-        </select>
-        <button type="submit" class="btn btn-primary">Обновить цели</button>
+        <button type="submit" class="btn btn-primary">Сохранить цели</button>
         <table style = "border: 1px solid grey">
             <tr>
                 <th style = "border: 1px solid grey;text-align:center;">Подразделение</th>
@@ -22,77 +23,95 @@
             </tr>
             {{#each data}}
                 <tr>
-                    <td rowspan="4" style = "border: 1px solid grey;text-align:center;">{{this.[0]}}</td>
+                    <td rowspan="4" style = "border: 1px solid grey;text-align:center;">{{this.department}}</td>
                     <td style = "border: 1px solid grey;">
-                        <select id="sel_{{this.[0]}}_1" value={{this.[2]}}>
-                            {{#each data.cat}}
-                                <option value={{this.[0]}}>{{this.[0]}}</option>
+                        <select name="sel_{{this.department}}_1">
+                            {{#each this.categories_1}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
                             {{/each}}
                         </select>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="surname_{{this.[0]}}_1" value={{this.[3]}}>
+                        <input name="surname_{{this.department}}_1" value={{this.surname_1}} >
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="target1_{{this.[0]}}_1" value={{this.[4]}}>
+                        <input name="target1_{{this.department}}_1" value={{this.target1_1}}>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="target2_{{this.[0]}}_1" value={{this.[5]}}>
+                        <input name="target2_{{this.department}}_1" value={{this.target2_1}}>
                     </td>
-                    <td rowspan="4" style = "border: 1px solid grey;text-align:center;">{{this.[1]}}</td>
-                </tr>
-                <tr>
-                    <td style = "border: 1px solid grey;">
-                        <select id="sel_{{this.[0]}}_2" value={{this.[6]}}>
-                            {{#each categories}}
-                                <option value={{this.name}}>{{this.name}}</option>
-                            {{/each}}
-                        </select>
-                    </td>
-                    <td style="border: 1px solid grey;">
-                        <input id="surname_{{this.[0]}}_2" value={{this.[7]}}>
-                    </td>
-                    <td style="border: 1px solid grey;">
-                        <input id="target1_{{this.[0]}}_2" value={{this.[8]}}>
-                    </td>
-                    <td style="border: 1px solid grey;">
-                        <input id="target2_{{this.[0]}}_2" value={{this.[9]}}>
+                    <td rowspan="4" style = "border: 1px solid grey;text-align:center;">
+                        <a href={{this.link}}>{{this.link}}</a>
                     </td>
                 </tr>
                 <tr>
                     <td style = "border: 1px solid grey;">
-                        <select id="sel_{{this.[0]}}_3" value={{this.[10]}}>
-                            {{#each categories}}
-                                <option value={{this.name}}>{{this.name}}</option>
+                        <select name="sel_{{this.department}}_2">
+                            {{#each this.categories_2}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
                             {{/each}}
                         </select>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="surname_{{this.[0]}}_3" value={{this.[11]}}>
+                        <input name="surname_{{this.department}}_2" value={{this.surname_2}}>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="target1_{{this.[0]}}_3" value={{this.[12]}}>
+                        <input name="target1_{{this.department}}_2" value={{this.target1_2}}>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="target2_{{this.[0]}}_3" value={{this.[13]}}>
+                        <input name="target2_{{this.department}}_2" value={{this.target2_2}}>
                     </td>
                 </tr>
                 <tr>
                     <td style = "border: 1px solid grey;">
-                        <select id="sel_{{this.[0]}}_4" value={{this.[14]}}>
-                            {{#each categories}}
-                                <option value={{this.name}}>{{this.name}}</option>
+                        <select name="sel_{{this.department}}_3">
+                            {{#each this.categories_3}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
                             {{/each}}
                         </select>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="surname_{{this.[0]}}_4" value={{this.[15]}}>
+                        <input name="surname_{{this.department}}_3" value={{this.surname_3}}>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="target1_{{this.[0]}}_4" value={{this.[16]}}>
+                        <input name="target1_{{this.department}}_3" value={{this.target1_3}}>
                     </td>
                     <td style="border: 1px solid grey;">
-                        <input id="target2_{{this.[0]}}_4" value={{this.[17]}}>
+                        <input name="target2_{{this.department}}_3" value={{this.target2_3}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_{{this.department}}_4">
+                            {{#each this.categories_4}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_{{this.department}}_4" value={{this.surname_4}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_{{this.department}}_4" value={{this.target1_4}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_{{this.department}}_4" value={{this.target2_4}}>
                     </td>
                 </tr>
             {{/each}}

@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="../main.css">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">IIKO Reporter</a>
+</nav>
+
+{{#if message}}
+    <div class="alert {{messageClass}}" role="alert">
+        {{message}}
+    </div>
+{{/if}}
+
+<div style="margin-top: 30px">
+    <p>
+        <a class="btn btn-primary btn-lg active" href="/protected">Установить/посмотреть цели</a>
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg active" href="/report">Сформировать отчет</a>
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg active" href="/settings">Настройка соединения</a>
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg active" href="/sync">Синхронизировать сейчас</a>
+    </p>
+
+</div>
