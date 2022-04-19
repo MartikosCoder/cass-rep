@@ -91,7 +91,7 @@ const formPublicData = (context, dep) => {
             }
           }
         }
-        body[i][2] += trade.count;
+        body[i][2] = person.bills.length;
         const target = targets.targets.find(el => el.dish === trade.dish);
         if (target) {
           let c = getColumnNum(context.targets.getAllTargets().find(el => el.department === dep), trade.dish);

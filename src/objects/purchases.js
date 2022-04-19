@@ -44,7 +44,7 @@ class Purchases {
         }
       }
       if (cash == null) {
-        this.purchases[dep].persons.push({ cashier: row['Cashier'], cart: [] });
+        this.purchases[dep].persons.push({ cashier: row['Cashier'], cart: [], bills: [] });
         cash = this.purchases[dep].persons.length - 1;
       }
       let dish = null;
@@ -59,6 +59,10 @@ class Purchases {
         dish = this.purchases[dep].persons[cash].cart.length - 1;
       }
       this.purchases[dep].persons[cash].cart[dish].count += row['DishAmountInt'];
+      const bill = this.purchases[dep].persons[cash].bills.find(el => el === row['OrderNum']);
+      if (!bill) {
+        this.purchases[dep].persons[cash].bills.push(row['OrderNum']);
+      }
     }
   }
 
