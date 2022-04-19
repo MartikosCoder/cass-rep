@@ -147,7 +147,7 @@ const main = async () => {
 
     app.post('/report', async (req, res) => {
         const { startDate, endDate, department } = req.body;
-        if (startDate > endDate) {
+        if (startDate && endDate && startDate > endDate) {
             res.render('/report', {
                 data: context.branches.getBranches(),
                 message: 'Неправильно задан диапазон дат для отчета',
@@ -160,19 +160,35 @@ const main = async () => {
     });
 
     app.post('/protected', (req, res) => {
-        context.targets.makeEmptyTargets(context.branches.getBranches());
         const keys = Object.keys(req.body);
-        for (const key of keys.filter(el => el.startsWith('sel_'))) {
-            const parts = key.split('_');
-            const cat = req.body[key];
-            const n = parseInt(parts[2]) - 1;
-            const surname = req.body[`surname_${parts[1]}_${parts[2]}`];
-            const target1 = parseInt(req.body[`target1_${parts[1]}_${parts[2]}`]);
-            const target2 = parseInt(req.body[`target2_${parts[1]}_${parts[2]}`]);
-            if (target1 && target2) {
-                context.targets.setDishTarget(parts[1], n, cat, target1, target2, surname);
+        const buttonClick = keys.filter(el => el.startsWith('but_'));
+        if (buttonClick.length == 1) {
+            const parts = keys[0].split('_');
+            const template = [];
+            for (var i = 1; i < 5; i++) {
+                template.push({
+                    dish: req.body[`sel_${parts[1]}_${i}`],
+                    surname: req.body[`surname_${parts[1]}_${i}`],
+                    target1: parseInt(req.body[`target1_${parts[1]}_${i}`]),
+                    target2: parseInt(req.body[`target2_${parts[1]}_${i}`])
+                });
+            }
+            context.targets.makeEmptyTargets(context.branches.getBranches(), template);
+        } else {
+            context.targets.makeEmptyTargets(context.branches.getBranches());
+            for (const key of keys.filter(el => el.startsWith('sel_'))) {
+                const parts = key.split('_');
+                const cat = req.body[key];
+                const n = parseInt(parts[2]) - 1;
+                const surname = req.body[`surname_${parts[1]}_${parts[2]}`];
+                const target1 = parseInt(req.body[`target1_${parts[1]}_${parts[2]}`]);
+                const target2 = parseInt(req.body[`target2_${parts[1]}_${parts[2]}`]);
+                if (target1 && target2) {
+                    context.targets.setDishTarget(parts[1], n, cat, target1, target2, surname);
+                }
             }
         }
+        res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories()});
     });
 
     runWorker(context, app);

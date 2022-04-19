@@ -15,6 +15,7 @@ const syncData = async(context) => {
   try {
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
+    context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.categories.update(context.iiko);
     await context.purchases.updatePurchases(context.iiko);
     context.links.update(context.targets.getAllTargets());

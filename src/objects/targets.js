@@ -17,7 +17,7 @@ class Targets {
     }
   }
 
-  makeEmptyTargets(departments) {
+  makeEmptyTargets(departments, template = null) {
     this.allTargets = [];
     const emptyDish = {
       dish: "",
@@ -25,8 +25,14 @@ class Targets {
       target1: 0,
       target2: 0
     }
+    let newTarget = [];
+    if (template) {
+      newTarget = [...template];
+    } else {
+      for (var i = 0; i < 4; i++ ) newTarget.push(emptyDish);
+    }
     for (const department of departments) {
-      this.allTargets.push({ department, targets: [emptyDish, emptyDish, emptyDish, emptyDish] });
+      this.allTargets.push({ department, targets: newTarget });
     };
   }
 
@@ -39,7 +45,16 @@ class Targets {
     }
     for (const j in this.allTargets) {
       if (this.allTargets[j].department === department) {
-        this.allTargets[j].targets[n] = newtarget;
+        const t = this.allTargets[j].targets;
+        const ts = [];
+        for (let i = 0; i < 4; i++) {
+          if (i == n) {
+            ts.push(newtarget);
+          } else {
+            ts.push(t[i]);
+          }
+        }
+        this.allTargets[j].targets = ts;
         break;
       }
     }
@@ -50,7 +65,7 @@ class Targets {
   }
 
   getDepartmentTargets(department) {
-    const item = this.allTargets.find({ department: department });
+    const item = this.allTargets.find(el => el.department === department);
     if (!item) return null;
     return item.targets;
   }
