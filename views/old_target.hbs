@@ -1,0 +1,121 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">IIKO reporter AdminPanel</a>
+</nav>
+
+<script id="select-template" type="text/x-handlebars-template">
+    {{#each categories}}
+        <option value={{this}}>{{this}}</option>
+    {{/each}}
+</script>
+
+<div>
+    <h2>Установите цели для подразделений</h2>
+    <form method="POST" action="/protected">
+        <button type="submit" class="btn btn-primary">Сохранить цели</button>
+        <table style = "border: 1px solid grey">
+            <tr>
+                <th style = "border: 1px solid grey;text-align:center;">Подразделение</th>
+                <th style = "border: 1px solid grey;text-align:center;">Категория</th>
+                <th style = "border: 1px solid grey;text-align:center;">Название</th>
+                <th style = "border: 1px solid grey;text-align:center;">Цель 1</th>
+                <th style = "border: 1px solid grey;text-align:center;">Цель 2</th>
+                <th style = "border: 1px solid grey;text-align:center;">Ссылка на таблицу</th>
+            </tr>
+            {{#each data}}
+                <tr>
+                    <td rowspan="4" style = "border: 1px solid grey;text-align:center;">{{this.department}}</td>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_{{this.department}}_1">
+                            {{#each this.categories_1}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_{{this.department}}_1" value={{this.surname_1}} >
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_{{this.department}}_1" value={{this.target1_1}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_{{this.department}}_1" value={{this.target2_1}}>
+                    </td>
+                    <td rowspan="4" style = "border: 1px solid grey;text-align:center;">
+                        <a href={{this.link}}>{{this.link}}</a>
+                        <button name="but_{{this.department}}">Скопировать цели</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_{{this.department}}_2">
+                            {{#each this.categories_2}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_{{this.department}}_2" value={{this.surname_2}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_{{this.department}}_2" value={{this.target1_2}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_{{this.department}}_2" value={{this.target2_2}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_{{this.department}}_3">
+                            {{#each this.categories_3}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_{{this.department}}_3" value={{this.surname_3}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_{{this.department}}_3" value={{this.target1_3}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_{{this.department}}_3" value={{this.target2_3}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_{{this.department}}_4">
+                            {{#each this.categories_4}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_{{this.department}}_4" value={{this.surname_4}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_{{this.department}}_4" value={{this.target1_4}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_{{this.department}}_4" value={{this.target2_4}}>
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+    </form>
+</div>

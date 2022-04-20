@@ -23,8 +23,8 @@ class Links {
         console.log(e)
       }
     }
-    this.links = [];
     this.lastIndex = 0;
+    this.links = [];
     for (const target of targets) {
         this.lastIndex += 1;
         this.links.push({ department: target.department, link: `/public/d${this.lastIndex}`});
