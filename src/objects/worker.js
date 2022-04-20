@@ -11,15 +11,18 @@ const updateLinks = (context, app) => {
   }
 }
 
-const syncData = async(context) => {
+const syncData = async(context, app) => {
   try {
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.categories.update(context.iiko);
-    await context.purchases.updatePurchases(context.iiko);
-    context.links.update(context.targets.getAllTargets());
+    for (const branch of context.branches.getBranches()) {
+      await context.purchases.updatePurchases(context.iiko, null, null, branch);
+    }
     await context.iiko.close();
+    context.links.update(context.targets.getAllTargets(), app);
+    updateLinks(context, app);
     return true;
   } catch (e) {
     if (context.iiko.token) {
@@ -32,7 +35,7 @@ const syncData = async(context) => {
 const runWorker = async (context, app) => {
   let timeRun = 0;
   while (timeRun < Date.now()) {
-    if (await syncData(context)) {
+    if (await syncData(context, app)) {
       timeRun = Date.now() + timeSpan;
       updateLinks(context, app);
     }

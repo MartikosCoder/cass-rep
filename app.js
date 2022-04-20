@@ -69,7 +69,7 @@ const main = async () => {
     app.post('/settings', async (req, res) => {
         const { server, user, password } = req.body;
         context.iiko.update(server, user, password);
-        const syncResult = await syncData(context);
+        const syncResult = await syncData(context, app);
         if (syncResult) {
             res.render('main', {
                 message: 'Соединение с сервером установлено',
@@ -131,7 +131,7 @@ const main = async () => {
     });
 
     app.get('/sync', async (req, res) => {
-        const syncResult = await syncData(context);
+        const syncResult = await syncData(context, app);
         if (syncResult) {
             res.render('main', {
                 message: 'Синхронизация выполнена успешно',

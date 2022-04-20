@@ -156,7 +156,7 @@ const getPublicData = async (context, dep, startDate = null, endDate = null) => 
     }
     await tempContext.iiko.getToken();
     tempContext.purchases = new Purchases();
-    await tempContext.purchases.updatePurchases(tempContext.iiko, `${startDate}T00:00:00.000`, `${endDate}T00:00:00.000`);
+    await tempContext.purchases.updatePurchases(tempContext.iiko, `${startDate}T00:00:00.000`, `${endDate}T00:00:00.000`, dep);
     await tempContext.iiko.close();
   }
   const data = formPublicData(tempContext, dep);

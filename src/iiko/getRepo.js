@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { XMLParser } = require('fast-xml-parser');
 
-const getRepo = async (startDate, endDate, token, iikoServer) => {
+const getRepo = async (startDate, endDate, department, token, iikoServer) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -20,6 +20,10 @@ const getRepo = async (startDate, endDate, token, iikoServer) => {
       "DishAmountInt"
     ],
     filters: {
+      "Department": {
+        "filterType": "IncludeValues",
+        "values": [department]
+      },
       "OpenDate.Typed": {
         filterType: "DateRange",
         periodType: "CUSTOM",

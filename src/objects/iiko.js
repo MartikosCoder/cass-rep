@@ -46,8 +46,8 @@ class Iiko {
         return await getCategories(this.token, this.server);
     }
 
-    async getRepo(startDate, endDate) {
-        return await getRepo(startDate, endDate, this.token, this.server);
+    async getRepo(startDate, endDate, department) {
+        return await getRepo(startDate, endDate, department, this.token, this.server);
     }
 
     update(server, login, password) {
