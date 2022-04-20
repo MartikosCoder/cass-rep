@@ -3,11 +3,25 @@ const { Iiko } = require("../objects/iiko");
 const { formPublicData } = require("./context");
 
 const updateLinks = (context, app) => {
-  for (const link of context.links.getLinks()) {
-    app.get(link.link, (req, res) => {
-      const data = formPublicData(context, link.department);
-      res.render('publicTable', { data });
-    });
+  let flag  = true;
+  for (const target of context.targets.getAllTargets()) {
+    const item = context.links.getLinks().find(el => el.department === target.department);
+    if (!item) {
+      flag = false;
+      break;
+    }
+  }
+  if (context.targets.getAllTargets().length != context.links.getLinks().length) {
+    flag = false;
+  }
+  if (!flag) {
+    context.links.update(context.targets.getAllTargets(), app);
+    for (const link of context.links.getLinks()) {
+      app.get(link.link, (req, res) => {
+        const data = formPublicData(context, link.department);
+        res.render('publicTable', {data});
+      });
+    }
   }
 }
 
@@ -21,8 +35,6 @@ const syncData = async(context, app) => {
       await context.purchases.updatePurchases(context.iiko, null, null, branch);
     }
     await context.iiko.close();
-    context.links.update(context.targets.getAllTargets(), app);
-    updateLinks(context, app);
     return true;
   } catch (e) {
     if (context.iiko.token) {
@@ -44,5 +56,6 @@ const runWorker = async (context, app) => {
 
 module.exports = {
   runWorker,
-  syncData
+  syncData,
+  updateLinks
 }

@@ -16,14 +16,14 @@ class Links {
   }
 
   update(targets, app) {
-    for (const link of this.links) {
-      try{
-      removeRoute(app, link.link);}
-      catch (e) {
-        console.log(e)
-      }
-    }
-    this.lastIndex = 0;
+    // for (const link of this.links) {
+    //   try{
+    //   removeRoute(app, link.link);}
+    //   catch (e) {
+    //     console.log(e)
+    //   }
+    // }
+    // this.lastIndex = 0;
     this.links = [];
     for (const target of targets) {
         this.lastIndex += 1;

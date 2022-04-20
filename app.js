@@ -2,7 +2,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const { runWorker, syncData } = require("./src/objects/worker");
+const { runWorker, syncData, updateLinks } = require("./src/objects/worker");
 const { initContext, getPublicData, getProtectedData } = require('./src/objects/context');
 
 const crypto = require('crypto');
@@ -132,6 +132,7 @@ const main = async () => {
 
     app.get('/links', (req, res) => {
         if (req.user) {
+            updateLinks(context, app);
             const data = context.links.getLinks();
             res.render('links', { data });
         } else {

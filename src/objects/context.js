@@ -24,7 +24,6 @@ const formData = async (context) => {
     await context.branches.update(context.iiko);
     await context.categories.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
-    context.links.generate(context.targets.getAllTargets());
     await context.iiko.close();
   } catch (e) {
     console.log(e);
@@ -104,6 +103,7 @@ const formPublicData = (context, dep) => {
     let row1 = [...body[i]];
     let row2 = [...emptyRow];
     row2[3] = body[i][5];
+
     row1[5] = Math.floor(row1[4] * 100 / row1[2]);
     row2[6] = body[i][8];
     row1[8] = Math.floor(row1[7] * 100/ row1[2]);
