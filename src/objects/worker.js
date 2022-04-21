@@ -28,6 +28,7 @@ const updateLinks = (context, app) => {
 const syncData = async(context, app) => {
   try {
     context.connected = false;
+    context.inProcess = true;
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
@@ -37,11 +38,17 @@ const syncData = async(context, app) => {
     }
     await context.iiko.close();
     context.connected = true;
+    context.inProcess = false;
+    app.use((req, res, next) => {
+      res.send('<script>alert("Cинхронизация окончена!"); window.location.href = "/main"; </script>');
+      next();
+    });
     return true;
   } catch (e) {
     if (context.iiko.token) {
       await context.iiko.close();
     }
+    context.inProcess = false;
     return false;
   }
 }

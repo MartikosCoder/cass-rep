@@ -57,7 +57,7 @@ const main = async () => {
 
     app.get('/settings', async (req, res) => {
         if (req.user) {
-            if (context.connected) res.render('settings', { data: context.iiko.getAuthData() })
+            if (!context.inProcess) res.render('settings', { data: context.iiko.getAuthData() })
             else {
                 res.send('<script>alert("Дождитесь окончания процесса синхронизации"); window.location.href = "/main"; </script>');
             }
@@ -152,18 +152,20 @@ const main = async () => {
     });
 
     app.get('/sync', async (req, res) => {
-        const syncResult = await syncData(context, app);
-        if (syncResult) {
-            res.render('main', {
-                message: 'Синхронизация выполнена успешно',
-                messageClass: 'alert-success'
-            });
-        } else {
-            res.render('main', {
-                message: 'Синхронизация не выполнена',
-                messageClass: 'alert-danger'
-            });
-        }
+        if (!context.inProcess) {
+            const syncResult = await syncData(context, app);
+            if (syncResult) {
+                res.render('main', {
+                    message: 'Синхронизация выполнена успешно',
+                    messageClass: 'alert-success'
+                });
+            } else {
+                res.render('main', {
+                    message: 'Синхронизация не выполнена',
+                    messageClass: 'alert-danger'
+                });
+            }
+        } else res.send('<script>alert("Дождитесь окончания процесса синхронизации"); window.location.href = "/main"; </script>');
     });
 
     app.post('/report', async (req, res) => {

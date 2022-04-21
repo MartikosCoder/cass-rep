@@ -14,20 +14,24 @@ const initContext = async () => {
   context.purchases = new Purchases();
   context.links = new Links();
   context.iiko = new Iiko();
+  context.inProcess = true;
   await formData(context);
   context.connected = true;
+  context.inProcess = false;
   return context;
 }
 
 const formData = async (context) => {
   try {
     context.connected = false;
+    context.inProcess = true;
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
     await context.categories.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.iiko.close();
     context.connected = true;
+    context.inProcess = false;
   } catch (e) {
     console.log(e);
   }
