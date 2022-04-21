@@ -39,10 +39,6 @@ const syncData = async(context, app) => {
     await context.iiko.close();
     context.connected = true;
     context.inProcess = false;
-    app.use((req, res, next) => {
-      res.send('<script>alert("Cинхронизация окончена!"); window.location.href = "/main"; </script>');
-      next();
-    });
     return true;
   } catch (e) {
     if (context.iiko.token) {
