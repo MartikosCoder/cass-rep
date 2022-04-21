@@ -27,6 +27,7 @@ const updateLinks = (context, app) => {
 
 const syncData = async(context, app) => {
   try {
+    context.connected = false;
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
@@ -35,6 +36,7 @@ const syncData = async(context, app) => {
       await context.purchases.updatePurchases(context.iiko, null, null, branch);
     }
     await context.iiko.close();
+    context.connected = true;
     return true;
   } catch (e) {
     if (context.iiko.token) {

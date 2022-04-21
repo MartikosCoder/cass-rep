@@ -46,7 +46,7 @@ const main = async () => {
 
     app.get('/main', async (req, res) => {
         if (req.user) {
-            res.render('main', { data: await context.iiko.testConnect() });
+            res.render('main', { data: context.connected });
         } else {
             res.render('login', {
                 message: 'Please login to continue',
@@ -57,7 +57,10 @@ const main = async () => {
 
     app.get('/settings', async (req, res) => {
         if (req.user) {
-            res.render('settings', { data: context.iiko.getAuthData() });
+            if (context.connected) res.render('settings', { data: context.iiko.getAuthData() })
+            else {
+                res.send('<script>alert("Дождитесь окончания процесса синхронизации"); window.location.href = "/main"; </script>');
+            }
         } else {
             res.render('login', {
                 message: 'Please login to continue',
@@ -109,7 +112,8 @@ const main = async () => {
 
     app.get('/protected', (req, res) => {
         if (req.user) {
-            res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories()});
+            if (context.connected) res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories()})
+            else res.send('<script>alert("Дождитесь окончания процесса синхронизации"); window.location.href = "/main"; </script>');
         } else {
             res.render('login', {
                 message: 'Please login to continue',
@@ -120,8 +124,10 @@ const main = async () => {
 
     app.get('/report', (req, res) => {
         if (req.user) {
-            const data = context.branches.getBranches();
-            res.render('report', { data });
+            if (context.connected) {
+                const data = context.branches.getBranches();
+                res.render('report', {data});
+            } else res.send('<script>alert("Дождитесь окончания процесса синхронизации"); window.location.href = "/main"; </script>');
         } else {
             res.render('login', {
                 message: 'Please login to continue',
@@ -132,9 +138,11 @@ const main = async () => {
 
     app.get('/links', (req, res) => {
         if (req.user) {
-            updateLinks(context, app);
-            const data = context.links.getLinks();
-            res.render('links', { data });
+            if (context.connected) {
+                updateLinks(context, app);
+                const data = context.links.getLinks();
+                res.render('links', {data});
+            } else res.send('<script>alert("Дождитесь окончания процесса синхронизации"); window.location.href = "/main"; </script>');
         } else {
             res.render('login', {
                 message: 'Please login to continue',

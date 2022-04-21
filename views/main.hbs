@@ -11,15 +11,21 @@
 {{/if}}
 
 <div style="margin-top: 30px">
-    <p>
-        <a class="btn btn-primary btn-lg active" href="/protected">Установить/посмотреть цели</a>
-    </p>
-    <p>
-        <a class="btn btn-primary btn-lg active" href="/links">Посмотреть ссылки</a>
-    </p>
-    <p>
-        <a class="btn btn-primary btn-lg active" href="/report">Сформировать отчет</a>
-    </p>
+    {{#if data}}
+        <p>
+            <a class="btn btn-primary btn-lg active" href="/protected">Установить/посмотреть цели</a>
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg active" href="/links">Посмотреть ссылки</a>
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg active" href="/report">Сформировать отчет</a>
+        </p>
+    {{else}}
+        <p>
+            <a>Дождитесь окончания процесса синхронизации</a>
+        </p>
+    {{/if}}
     <p>
         <a class="btn btn-primary btn-lg active" href="/settings">Настройка соединения</a>
     </p>

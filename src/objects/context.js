@@ -15,16 +15,19 @@ const initContext = async () => {
   context.links = new Links();
   context.iiko = new Iiko();
   await formData(context);
+  context.connected = true;
   return context;
 }
 
 const formData = async (context) => {
   try {
+    context.connected = false;
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
     await context.categories.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.iiko.close();
+    context.connected = true;
   } catch (e) {
     console.log(e);
   }
