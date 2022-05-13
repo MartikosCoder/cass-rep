@@ -49,13 +49,13 @@ class Purchases {
       }
       let dish = null;
       for (const i in this.purchases[dep].persons[cash].cart) {
-        if (this.purchases[dep].persons[cash].cart[i].dish === row['DishCategory']) {
+        if (this.purchases[dep].persons[cash].cart[i].dish === row['DishCategory.Accounting']) {
           dish = i;
           break;
         }
       }
       if (dish == null) {
-        this.purchases[dep].persons[cash].cart.push({ dish: row['DishCategory'], count: 0 });
+        this.purchases[dep].persons[cash].cart.push({ dish: row['DishCategory.Accounting'], count: 0 });
         dish = this.purchases[dep].persons[cash].cart.length - 1;
       }
       this.purchases[dep].persons[cash].cart[dish].count += row['DishAmountInt'];
