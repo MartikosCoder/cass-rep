@@ -16,7 +16,7 @@ const getRepo = async (startDate, endDate, department, token, iikoServer) => {
       "Department",
       "OrderNum",
       "DishName",
-      "DishCategory",
+      "DishCategory.Accounting",
       "DishAmountInt"
     ],
     filters: {
