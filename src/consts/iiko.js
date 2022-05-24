@@ -1,6 +1,6 @@
-const iikoServer = "http://95.31.10.45:9080/resto/api";
-const iikoLogin = "1";
-const iikoPassword = "356a192b7913b04c54574d18c28d46e6395428ab";
+const iikoServer = "http://iiko.neftm.ru:62225/resto/api";
+const iikoLogin = "lemma";
+const iikoPassword = "b40215b75884d8f78ccac7941c6b7cf2f6673885";
 
 module.exports = {
   iikoServer,
