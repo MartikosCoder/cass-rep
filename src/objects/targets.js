@@ -29,7 +29,7 @@ class Targets {
     if (template) {
       newTarget = [...template];
     } else {
-      for (var i = 0; i < 5; i++ ) newTarget.push(emptyDish);
+      for (let i = 0; i < 5; i++ ) newTarget.push(emptyDish);
     }
     for (const department of departments) {
       this.allTargets.push({ department, targets: newTarget });
