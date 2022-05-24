@@ -29,11 +29,11 @@ class Targets {
     if (template) {
       newTarget = [...template];
     } else {
-      for (var i = 0; i < 4; i++ ) newTarget.push(emptyDish);
+      for (var i = 0; i < 5; i++ ) newTarget.push(emptyDish);
     }
     for (const department of departments) {
       this.allTargets.push({ department, targets: newTarget });
-    };
+    }
   }
 
   setDishTarget(department, n, dish, target1, target2, surname) {
@@ -47,8 +47,8 @@ class Targets {
       if (this.allTargets[j].department === department) {
         const t = this.allTargets[j].targets;
         const ts = [];
-        for (let i = 0; i < 4; i++) {
-          if (i == n) {
+        for (let i = 0; i < 5; i++) {
+          if (i === n) {
             ts.push(newtarget);
           } else {
             ts.push(t[i]);

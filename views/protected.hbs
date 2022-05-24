@@ -111,6 +111,29 @@
                     <input name="target2_4" value={{data.[0].target2_4}}>
                 </td>
             </tr>
+            <tr>
+                <td style = "border: 1px solid grey;text-align:center;">5.</td>
+                <td style = "border: 1px solid grey;">
+                    <select name="sel_5">
+                        {{#each data.[0].categories_5}}
+                            {{#if checked}}
+                                <option value='{{name}}' selected="selected">{{name}}</option>
+                            {{else}}
+                                <option value='{{name}}'>{{name}}</option>
+                            {{/if}}
+                        {{/each}}
+                    </select>
+                </td>
+                <td style="border: 1px solid grey;">
+                    <input name="surname_5" value={{data.[0].surname_5}} >
+                </td>
+                <td style="border: 1px solid grey;">
+                    <input name="target1_5" value={{data.[0].target1_5}}>
+                </td>
+                <td style="border: 1px solid grey;">
+                    <input name="target2_5" value={{data.[0].target2_5}}>
+                </td>
+            </tr>
         </table>
     </form>
 </div>

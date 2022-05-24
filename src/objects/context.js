@@ -4,7 +4,6 @@ const { Categories } = require("../objects/categories");
 const { Targets } = require("../objects/targets");
 const { Purchases } = require("../objects/purchases");
 const { Links } = require("../objects/links");
-const { Cashiers } = require("./cashiers");
 
 const initContext = async () => {
   let context = {};
@@ -49,7 +48,7 @@ const getColumnNum = (targets, name) => {
 }
 
 const formPublicData = (context, dep) => {
-  const emptyRow = [0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true, 'border: 1px solid grey;text-align:center;color: blue;font-weight: bold;'];
+  const emptyRow = [0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true, 'border: 1px solid grey;text-align:center;color: blue;font-weight: bold;'];
   let data = {
     header: {
       up: ["№", "ФИО кассира", "Чеки", "", "", "", "", "Итог продаж"],
@@ -110,7 +109,6 @@ const formPublicData = (context, dep) => {
     let row1 = [...body[i]];
     let row2 = [...emptyRow];
     row2[3] = body[i][5];
-
     row1[5] = Math.floor(row1[4] * 100 / row1[2]);
     row2[6] = body[i][8];
     row1[8] = Math.floor(row1[7] * 100/ row1[2]);
@@ -118,18 +116,20 @@ const formPublicData = (context, dep) => {
     row1[11] = Math.floor(row1[10] * 100/ row1[2]);
     row2[12] = body[i][14];
     row1[14] = Math.floor(row1[13] * 100 / row1[2]);
-    row1[17] = row1[5] + row1[8] + row1[11] + row1[14];
-    row1[15] = row1[3] + row1[6] + row1[9] + row1[12];
-    row2[16] = row2[3] + row2[6] + row2[9] + row2[12];
-    row1[18] = row1[17] - row1[15];
-    if (row1[18] < 0) {
-      row1[20] = 'border: 1px solid grey;text-align:center;color: darkred;font-weight: bold;background-color: hotpink;';
+    row2[15] = body[i][17];
+    row1[17] = Math.floor(row1[16] * 100 / row1[2]);
+    row1[20] = row1[5] + row1[8] + row1[11] + row1[14] + row1[17];
+    row1[18] = row1[3] + row1[6] + row1[9] + row1[12] + row1[15];
+    row2[19] = row2[3] + row2[6] + row2[9] + row2[12] + row2[15];
+    row1[21] = row1[20] - row1[18];
+    if (row1[21] < 0) {
+      row1[23] = 'border: 1px solid grey;text-align:center;color: darkred;font-weight: bold;background-color: hotpink;';
     }
-    row2[18] = row1[17] - row2[16];
-    if (row2[18] < 0) {
-      row2[20] = 'border: 1px solid grey;text-align:center;color: darkred;font-weight: bold;background-color: hotpink;';
+    row2[21] = row1[20] - row2[19];
+    if (row2[21] < 0) {
+      row2[23] = 'border: 1px solid grey;text-align:center;color: darkred;font-weight: bold;background-color: hotpink;';
     }
-    row2[19] = false;
+    row2[22] = false;
     data.body.push([...row1]);
     data.body.push([...row2]);
   }

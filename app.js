@@ -13,8 +13,7 @@ const { siteUser, sitePassword } = require('./src/consts/creds');
 
 const getHashedPassword = (password) => {
     const sha256 = crypto.createHash('sha256');
-    const hash = sha256.update(password).digest('base64');
-    return hash;
+    return sha256.update(password).digest('base64');
 }
 
 const generateAuthToken = () => {
@@ -101,7 +100,6 @@ const main = async () => {
 
             res.cookie('AuthToken', authToken);
             res.redirect('/main');
-            return;
         } else {
             res.render('login', {
                 message: 'Invalid username or password',
@@ -183,12 +181,12 @@ const main = async () => {
     });
 
     app.post('/protected', (req, res) => {
-        const keys = Object.keys(req.body);
+        // const keys = Object.keys(req.body);
         // const buttonClick = keys.filter(el => el.startsWith('but_'));
         // if (buttonClick.length == 1) {
-            const parts = keys[0].split('_');
+        //     const parts = keys[0].split('_');
             const template = [];
-            for (var i = 1; i < 5; i++) {
+            for (let i = 1; i < 6; i++) {
                 template.push({
                     dish: req.body[`sel_${i}`],
                     surname: req.body[`surname_${i}`],
