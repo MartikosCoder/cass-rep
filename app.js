@@ -21,7 +21,7 @@ const generateAuthToken = () => {
 }
 
 const main = async () => {
-// to support URL-encoded bodies
+    const context = await initContext();
     app.use(bodyParser.urlencoded({extended: true}));
 
     app.use(cookieParser());
