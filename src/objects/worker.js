@@ -34,7 +34,7 @@ const syncData = async(context, app) => {
     context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.categories.update(context.iiko);
     for (const branch of context.branches.getBranches()) {
-      await context.purchases.updatePurchases(context.iiko, null, null, branch);
+      await context.purchases.updatePurchases(context.iiko, null, null, context.filters.formQueryFilter(), branch);
     }
     await context.iiko.close();
     context.connected = true;

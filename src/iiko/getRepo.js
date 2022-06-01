@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { XMLParser } = require('fast-xml-parser');
 
-const getRepo = async (startDate, endDate, department, token, iikoServer) => {
+const getRepo = async (startDate, endDate, filters, department, token, iikoServer) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -37,7 +37,23 @@ const getRepo = async (startDate, endDate, department, token, iikoServer) => {
       "OrderDeleted": {
         filterType: "IncludeValues",
         values: ["NOT_DELETED"]
+      },
+      "PayTypes": {
+        filterType: "IncludeValues",
+        values: filters.payTypes
       }
+    }
+  }
+  if (filters.discountTypes) {
+    data.filters["OrderDiscount.Type"] = {
+      filterType: "IncludeValues",
+      values: filters.discountTypes
+    }
+  }
+  if (filters.orderTypes) {
+    data.filters["OrderType"] = {
+      filterType: "IncludeValues",
+      values: filters.orderTypes
     }
   }
   try {

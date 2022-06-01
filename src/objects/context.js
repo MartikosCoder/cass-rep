@@ -1,9 +1,10 @@
-const { Iiko } = require("../objects/iiko");
-const { Branches } = require("../objects/branches");
-const { Categories } = require("../objects/categories");
-const { Targets } = require("../objects/targets");
-const { Purchases } = require("../objects/purchases");
-const { Links } = require("../objects/links");
+const { Iiko } = require("./iiko");
+const { Branches } = require("./branches");
+const { Categories } = require("./categories");
+const { Targets } = require("./targets");
+const { Purchases } = require("./purchases");
+const { Links } = require("./links");
+const { Filters } = require("./filters")
 
 const initContext = async () => {
   let context = {};
@@ -13,6 +14,7 @@ const initContext = async () => {
   context.purchases = new Purchases();
   context.links = new Links();
   context.iiko = new Iiko();
+  context.filters = new Filters();
   context.inProcess = true;
   await formData(context);
   context.connected = true;
@@ -142,7 +144,8 @@ const getPublicData = async (context, dep, startDate = null, endDate = null) => 
     categories: context.categories,
     targets: context.targets,
     links: context.links,
-    iiko: context.iiko
+    iiko: context.iiko,
+    filters: context.filters
   }
   if (!startDate && !endDate) {
     tempContext.purchases = context.purchases;
@@ -163,7 +166,8 @@ const getPublicData = async (context, dep, startDate = null, endDate = null) => 
     }
     await tempContext.iiko.getToken();
     tempContext.purchases = new Purchases();
-    await tempContext.purchases.updatePurchases(tempContext.iiko, `${startDate}T00:00:00.000`, `${endDate}T00:00:00.000`, dep);
+    const filter = tempContext.filters.formQueryFilter();
+    await tempContext.purchases.updatePurchases(tempContext.iiko, `${startDate}T00:00:00.000`, `${endDate}T00:00:00.000`, filter, dep);
     await tempContext.iiko.close();
   }
   const data = formPublicData(tempContext, dep);

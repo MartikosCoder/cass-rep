@@ -12,7 +12,7 @@ class Purchases {
     this.lastCheck = date.toJSON().substring(0, 10) + 'T00:00:00.000';
   }
 
-  async updatePurchases(iiko, startDate = null, endDate = null, department = null) {
+  async updatePurchases(iiko, startDate = null, endDate = null, filter, department = null) {
     if (!startDate) {
       startDate = this.lastCheck;
     }
@@ -21,7 +21,7 @@ class Purchases {
       date.setDate(date.getDate() + 1);
       endDate = date.toJSON().substring(0, 10) + 'T00:00:00.000';
     }
-    const results = await iiko.getRepo(startDate, endDate, department);
+    const results = await iiko.getRepo(startDate, endDate, filter, department);
     let date = new Date();
     this.lastCheck = date.toJSON().substring(0, 10) + 'T00:00:00.000';
     for (const row of results.data) {

@@ -135,5 +135,37 @@
                 </td>
             </tr>
         </table>
+        <p>
+            <span>Фильтры</span>
+        </p>
+        <p>
+            <select multiple size = "3" name="filterPay">
+                {{#each filters.payTypes}}
+                    {{#if checked}}
+                        <option value='{{type}}' selected="selected">{{type}}</option>
+                    {{else}}
+                        <option value='{{type}}'>{{type}}</option>
+                    {{/if}}
+                {{/each}}
+            </select>
+        <select multiple size="19" name="filterDiscount">
+            {{#each filters.discountTypes}}
+                {{#if checked}}
+                    <option value='{{type}}' selected="selected">{{type}}</option>
+                {{else}}
+                    <option value='{{type}}'>{{type}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+        <select multiple size="3" name="filterOrder">
+            {{#each filters.orderTypes}}
+                {{#if checked}}
+                    <option value='{{type}}' selected="selected">{{type}}</option>
+                {{else}}
+                    <option value='{{type}}'>{{type}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+        </p>
     </form>
 </div>
