@@ -1,171 +1,193 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">IIKO reporter AdminPanel</a>
-</nav>
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <style type="text/css">
+        div.multiple_select_checkbox {
+                                  width: 600px;
+                                  height: 150px;
+                                  overflow-x: hidden;
+                                  overflow-y: auto;
+                                  border: 1px solid #CCCCCC;
+                              }
+    </style>
+</head>
+<body>
 
-<div>
-    <h2>Установите цели для подразделений</h2>
-    <p>
-        <a class="btn btn-primary" href="/main">На главную</a>
-    </p>
-    <form method="POST" action="/protected">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">IIKO reporter AdminPanel</a>
+    </nav>
+
+    <div>
+        <h2>Установите цели для подразделений</h2>
         <p>
-            <button type="submit" class="btn btn-primary">Сохранить цели</button>
+            <a class="btn btn-primary" href="/main">На главную</a>
         </p>
-        <table style = "border: 1px solid grey">
-            <tr>
-                <th style = "border: 1px solid grey;text-align:center;">№ п/п</th>
-                <th style = "border: 1px solid grey;text-align:center;">Категория</th>
-                <th style = "border: 1px solid grey;text-align:center;">Название</th>
-                <th style = "border: 1px solid grey;text-align:center;">Цель 1</th>
-                <th style = "border: 1px solid grey;text-align:center;">Цель 2</th>
-            </tr>
-            <tr>
-                <td style = "border: 1px solid grey;text-align:center;">1.</td>
-                <td style = "border: 1px solid grey;">
-                    <select name="sel_1">
-                        {{#each data.[0].categories_1}}
-                            {{#if checked}}
-                                <option value='{{name}}' selected="selected">{{name}}</option>
-                            {{else}}
-                                <option value='{{name}}'>{{name}}</option>
-                            {{/if}}
-                        {{/each}}
-                    </select>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="surname_1" value={{data.[0].surname_1}} >
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target1_1" value={{data.[0].target1_1}}>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target2_1" value={{data.[0].target2_1}}>
-                </td>
-            </tr>
-            <tr>
-                <td style = "border: 1px solid grey;text-align:center;">2.</td>
-                <td style = "border: 1px solid grey;">
-                    <select name="sel_2">
-                        {{#each data.[0].categories_2}}
-                            {{#if checked}}
-                                <option value='{{name}}' selected="selected">{{name}}</option>
-                            {{else}}
-                                <option value='{{name}}'>{{name}}</option>
-                            {{/if}}
-                        {{/each}}
-                    </select>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="surname_2" value={{data.[0].surname_2}} >
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target1_2" value={{data.[0].target1_2}}>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target2_2" value={{data.[0].target2_2}}>
-                </td>
-            </tr>
-            <tr>
-                <td style = "border: 1px solid grey;text-align:center;">3.</td>
-                <td style = "border: 1px solid grey;">
-                    <select name="sel_3">
-                        {{#each data.[0].categories_3}}
-                            {{#if checked}}
-                                <option value='{{name}}' selected="selected">{{name}}</option>
-                            {{else}}
-                                <option value='{{name}}'>{{name}}</option>
-                            {{/if}}
-                        {{/each}}
-                    </select>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="surname_3" value={{data.[0].surname_3}} >
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target1_3" value={{data.[0].target1_3}}>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target2_3" value={{data.[0].target2_3}}>
-                </td>
-            </tr>
-            <tr>
-                <td style = "border: 1px solid grey;text-align:center;">4.</td>
-                <td style = "border: 1px solid grey;">
-                    <select name="sel_4">
-                        {{#each data.[0].categories_4}}
-                            {{#if checked}}
-                                <option value='{{name}}' selected="selected">{{name}}</option>
-                            {{else}}
-                                <option value='{{name}}'>{{name}}</option>
-                            {{/if}}
-                        {{/each}}
-                    </select>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="surname_4" value={{data.[0].surname_4}} >
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target1_4" value={{data.[0].target1_4}}>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target2_4" value={{data.[0].target2_4}}>
-                </td>
-            </tr>
-            <tr>
-                <td style = "border: 1px solid grey;text-align:center;">5.</td>
-                <td style = "border: 1px solid grey;">
-                    <select name="sel_5">
-                        {{#each data.[0].categories_5}}
-                            {{#if checked}}
-                                <option value='{{name}}' selected="selected">{{name}}</option>
-                            {{else}}
-                                <option value='{{name}}'>{{name}}</option>
-                            {{/if}}
-                        {{/each}}
-                    </select>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="surname_5" value={{data.[0].surname_5}} >
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target1_5" value={{data.[0].target1_5}}>
-                </td>
-                <td style="border: 1px solid grey;">
-                    <input name="target2_5" value={{data.[0].target2_5}}>
-                </td>
-            </tr>
-        </table>
-        <p>
-            <span>Фильтры</span>
-        </p>
-        <p>
-            <select multiple size = "3" name="filterPay">
+        <form method="POST" action="/protected">
+            <p>
+                <button type="submit" class="btn btn-primary">Сохранить цели</button>
+            </p>
+            <table style = "border: 1px solid grey">
+                <tr>
+                    <th style = "border: 1px solid grey;text-align:center;">№ п/п</th>
+                    <th style = "border: 1px solid grey;text-align:center;">Категория</th>
+                    <th style = "border: 1px solid grey;text-align:center;">Название</th>
+                    <th style = "border: 1px solid grey;text-align:center;">Цель 1</th>
+                    <th style = "border: 1px solid grey;text-align:center;">Цель 2</th>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;text-align:center;">1.</td>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_1">
+                            {{#each data.[0].categories_1}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_1" value={{data.[0].surname_1}} >
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_1" value={{data.[0].target1_1}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_1" value={{data.[0].target2_1}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;text-align:center;">2.</td>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_2">
+                            {{#each data.[0].categories_2}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_2" value={{data.[0].surname_2}} >
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_2" value={{data.[0].target1_2}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_2" value={{data.[0].target2_2}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;text-align:center;">3.</td>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_3">
+                            {{#each data.[0].categories_3}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_3" value={{data.[0].surname_3}} >
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_3" value={{data.[0].target1_3}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_3" value={{data.[0].target2_3}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;text-align:center;">4.</td>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_4">
+                            {{#each data.[0].categories_4}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_4" value={{data.[0].surname_4}} >
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_4" value={{data.[0].target1_4}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_4" value={{data.[0].target2_4}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td style = "border: 1px solid grey;text-align:center;">5.</td>
+                    <td style = "border: 1px solid grey;">
+                        <select name="sel_5">
+                            {{#each data.[0].categories_5}}
+                                {{#if checked}}
+                                    <option value='{{name}}' selected="selected">{{name}}</option>
+                                {{else}}
+                                    <option value='{{name}}'>{{name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="surname_5" value={{data.[0].surname_5}} >
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target1_5" value={{data.[0].target1_5}}>
+                    </td>
+                    <td style="border: 1px solid grey;">
+                        <input name="target2_5" value={{data.[0].target2_5}}>
+                    </td>
+                </tr>
+            </table>
+                <p>
+                <span>ТИП ОПЛАТЫ:</span>
+                <div class="multiple_select_checkbox">
                 {{#each filters.payTypes}}
                     {{#if checked}}
-                        <option value='{{type}}' selected="selected">{{type}}</option>
+                        <div id="multiple_select_checkbox_choice"><input type="checkbox" name="pay" value="{{num}}" checked/>{{type}}</div>
                     {{else}}
-                        <option value='{{type}}'>{{type}}</option>
+                        <div id="multiple_select_checkbox_choice"><input type="checkbox" name="pay" value="{{num}}"/>{{type}}</div>
                     {{/if}}
                 {{/each}}
-            </select>
-        <select multiple size="19" name="filterDiscount">
-            {{#each filters.discountTypes}}
-                {{#if checked}}
-                    <option value='{{type}}' selected="selected">{{type}}</option>
-                {{else}}
-                    <option value='{{type}}'>{{type}}</option>
-                {{/if}}
-            {{/each}}
-        </select>
-        <select multiple size="3" name="filterOrder">
-            {{#each filters.orderTypes}}
-                {{#if checked}}
-                    <option value='{{type}}' selected="selected">{{type}}</option>
-                {{else}}
-                    <option value='{{type}}'>{{type}}</option>
-                {{/if}}
-            {{/each}}
-        </select>
-        </p>
-    </form>
-</div>
+                </div>
+                <span>ТИП СКИДКИ:</span>
+                <div class="multiple_select_checkbox">
+                {{#each filters.discountTypes}}
+                    {{#if checked}}
+                        <div id="multiple_select_checkbox_choice"><input type="checkbox" name="disc" value="{{num}}" checked/>{{type}}</div>
+                    {{else}}
+                        <div id="multiple_select_checkbox_choice"><input type="checkbox" name="disc" value="{{num}}"/>{{type}}</div>
+                    {{/if}}
+                {{/each}}
+                </div>
+                <span>ТИП ЗАКАЗА:</span>
+                <div class="multiple_select_checkbox">
+                    {{#each filters.orderTypes}}
+                        {{#if checked}}
+                            <div id="multiple_select_checkbox_choice"><input type="checkbox" name="ord" value="ord" checked/>{{type}}</div>
+                        {{else}}
+                            <div id="multiple_select_checkbox_choice"><input type="checkbox" name="ord" value="ord"/>{{type}}</div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </p>
+        </form>
+    </div>
+
+</body>
+</html>

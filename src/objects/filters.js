@@ -1,4 +1,4 @@
-const { filterTemplates } = require("../consts/filters");
+const {getFilters} = require("../iiko/getFilters");
 
 class Filters {
   constructor() {
@@ -7,12 +7,25 @@ class Filters {
       discountTypes: [],
       orderTypes: []
     }
-    filterTemplates.payTypes.forEach(el => this.filters.payTypes.push({ type: el, checked: false }));
-    filterTemplates.discountTypes.forEach(el => this.filters.discountTypes.push({ type: el, checked: false }));
-    filterTemplates.orderTypes.forEach(el => this.filters.orderTypes.push({ type: el, checked: false }));
-    this.filters.payTypes[0].checked = true;
-    this.filters.discountTypes[0].checked = true;
-    this.filters.orderTypes[0].checked = true;
+  }
+
+  async getInstant(iiko) {
+    const filterTemplates = await iiko.getFilters();
+    let i = 0;
+    filterTemplates.payTypes.forEach(el => {
+      this.filters.payTypes.push({ type: el, checked: false, num: i });
+      i++;
+    });
+    i = 0;
+    filterTemplates.discountTypes.forEach(el => {
+      this.filters.discountTypes.push({ type: el, checked: false, num: i });
+      i++
+    });
+    i = 0;
+    filterTemplates.orderTypes.forEach(el => {
+      this.filters.orderTypes.push({ type: el, checked: false, num: i });
+      i++
+    });
   }
 
   getFilters() {
@@ -23,26 +36,24 @@ class Filters {
     this.filters.payTypes.forEach(el => el.checked = false);
     this.filters.discountTypes.forEach(el => el.checked = false);
     this.filters.orderTypes.forEach(el => el.checked = false);
+    if (!pay) pay = [];
+    if (!discount) discount = [];
+    if (!order) order = [];
+    if (!Array.isArray(pay)) pay = [pay];
+    if (!Array.isArray(discount)) discount = [discount];
+    if (!Array.isArray(order)) order = [order];
     pay.forEach(el => {
-      const i = this.filters.payTypes.findIndex(item => item.type === el);
+      const i = this.filters.payTypes.findIndex(item => item.num === el);
       this.filters.payTypes[i].checked = true;
     });
-    if (discount.contains("")) {
-      this.filters.discountTypes[0].checked = true;
-    } else {
-      discount.forEach(el => {
-        const i = this.filters.discountTypes.findIndex(item => item.type === el);
-        this.filters.discountTypes[i].checked = true;
-      });
-    }
-    if (order.contains("")) {
-      this.filters.orderTypes[0].checked = true;
-    } else {
-      discount.forEach(el => {
-        const i = this.filters.orderTypes.findIndex(item => item.type === el);
-        this.filters.orderTypes[i].checked = true;
-      });
-    }
+    discount.forEach(el => {
+      const i = this.filters.discountTypes.findIndex(item => item.num === el);
+      this.filters.discountTypes[i].checked = true;
+    });
+    order.forEach(el => {
+      const i = this.filters.orderTypes.findIndex(item => item.num === el);
+      this.filters.orderTypes[i].checked = true;
+    });
   }
 
   formQueryFilter() {

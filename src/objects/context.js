@@ -29,6 +29,7 @@ const formData = async (context) => {
     await context.iiko.getToken();
     await context.branches.update(context.iiko);
     await context.categories.update(context.iiko);
+    await context.filters.getInstant(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.iiko.close();
     context.connected = true;

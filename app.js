@@ -193,8 +193,9 @@ const main = async () => {
                 target2: parseInt(req.body[`target2_${i}`])
             });
         }
+
         context.targets.makeEmptyTargets(context.branches.getBranches(), template);
-        context.filters.update(req.body["filterPay"], req.body["filterDiscount"], req.body["filterOrder"]);
+        context.filters.update(req.body["pay"], req.body["disc"], req.body["ord"]);
         res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories()});
     });
 

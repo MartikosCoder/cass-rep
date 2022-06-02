@@ -5,6 +5,7 @@ const { getRepo } = require("../iiko/getRepo");
 const { iikoLogin, iikoPassword, iikoServer } = require("../consts/iiko");
 const crypto = require('crypto');
 const fs = require('fs');
+const {getFilters} = require("../iiko/getFilters");
 
 const getHashedPassword = (password) => {
     const sha1 = crypto.createHash('sha1');
@@ -48,6 +49,10 @@ class Iiko {
 
     async getRepo(startDate, endDate, filter, department) {
         return await getRepo(startDate, endDate, filter, department, this.token, this.server);
+    }
+
+    async getFilters() {
+        return await getFilters(this.token, this.server);
     }
 
     update(server, login, password) {
