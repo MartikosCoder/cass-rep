@@ -179,9 +179,9 @@
                 <div class="multiple_select_checkbox">
                     {{#each filters.orderTypes}}
                         {{#if checked}}
-                            <div id="multiple_select_checkbox_choice"><input type="checkbox" name="ord" value="ord" checked/>{{type}}</div>
+                            <div id="multiple_select_checkbox_choice"><input type="checkbox" name="ord" value="{{num}} " checked/>{{type}}</div>
                         {{else}}
-                            <div id="multiple_select_checkbox_choice"><input type="checkbox" name="ord" value="ord"/>{{type}}</div>
+                            <div id="multiple_select_checkbox_choice"><input type="checkbox" name="ord" value="{{num}}"/>{{type}}</div>
                         {{/if}}
                     {{/each}}
                 </div>

@@ -196,7 +196,8 @@ const main = async () => {
 
         context.targets.makeEmptyTargets(context.branches.getBranches(), template);
         context.filters.update(req.body["pay"], req.body["disc"], req.body["ord"]);
-        res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories()});
+        res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories(),
+                filters: context.filters.getFilters()});
     });
 
     runWorker(context, app);

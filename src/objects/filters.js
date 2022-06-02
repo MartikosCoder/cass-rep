@@ -36,22 +36,28 @@ class Filters {
     this.filters.payTypes.forEach(el => el.checked = false);
     this.filters.discountTypes.forEach(el => el.checked = false);
     this.filters.orderTypes.forEach(el => el.checked = false);
+    // console.log(`pay: ${pay}`);
+    // console.log(`disc: ${discount}`);
+    // console.log(`order: ${order}`);
     if (!pay) pay = [];
     if (!discount) discount = [];
     if (!order) order = [];
     if (!Array.isArray(pay)) pay = [pay];
     if (!Array.isArray(discount)) discount = [discount];
     if (!Array.isArray(order)) order = [order];
+    // console.log(`pay: ${pay}`);
+    // console.log(`disc: ${discount}`);
+    // console.log(`order: ${order}`);
     pay.forEach(el => {
-      const i = this.filters.payTypes.findIndex(item => item.num === el);
+      const i = +el;
       this.filters.payTypes[i].checked = true;
     });
     discount.forEach(el => {
-      const i = this.filters.discountTypes.findIndex(item => item.num === el);
+      const i = +el;
       this.filters.discountTypes[i].checked = true;
     });
     order.forEach(el => {
-      const i = this.filters.orderTypes.findIndex(item => item.num === el);
+      const i = +el;
       this.filters.orderTypes[i].checked = true;
     });
   }
