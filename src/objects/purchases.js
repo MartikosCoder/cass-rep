@@ -55,10 +55,10 @@ class Purchases {
         }
       }
       if (dish == null) {
-        this.purchases[dep].persons[cash].cart.push({ dish: row['DishCategory.Accounting'], count: 0 });
+        this.purchases[dep].persons[cash].cart.push({ dish: row['DishCategory.Accounting'], res: 0 });
         dish = this.purchases[dep].persons[cash].cart.length - 1;
       }
-      this.purchases[dep].persons[cash].cart[dish].count += row['DishAmountInt'];
+      this.purchases[dep].persons[cash].cart[dish].res = row['DishAmountInt'];
       const bill = this.purchases[dep].persons[cash].bills.find(el => el === row['OrderNum']);
       if (!bill) {
         this.purchases[dep].persons[cash].bills.push(row['OrderNum']);

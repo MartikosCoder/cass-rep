@@ -103,7 +103,7 @@ const formPublicData = (context, dep) => {
         const target = targets.targets.find(el => el.dish === trade.dish);
         if (target) {
           let c = getColumnNum(context.targets.getAllTargets().find(el => el.department === dep), trade.dish);
-          body[i][4 + (c * 3)] += trade.count;
+          body[i][4 + (c * 3)] = trade.res;
         }
       }
     }
