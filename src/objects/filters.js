@@ -3,25 +3,28 @@ const {getFilters} = require("../iiko/getFilters");
 class Filters {
   constructor() {
     this.filters = {
-      payTypes: [],
-      discountTypes: [],
-      orderTypes: []
+      payTypes: [
+        { type: "не указано", checked: false, num: 0 },
+        { type: "(без оплаты)", checked: false, num: 1 },
+      ],
+      discountTypes: [{ type: "не указано", checked: false, num: 0 }],
+      orderTypes: [{ type: "не указано", checked: false, num: 0 }]
     }
   }
 
   async getInstant(iiko) {
     const filterTemplates = await iiko.getFilters();
-    let i = 0;
+    let i = 2;
     filterTemplates.payTypes.forEach(el => {
       this.filters.payTypes.push({ type: el, checked: false, num: i });
       i++;
     });
-    i = 0;
+    i = 1;
     filterTemplates.discountTypes.forEach(el => {
       this.filters.discountTypes.push({ type: el, checked: false, num: i });
       i++
     });
-    i = 0;
+    i = 1;
     filterTemplates.orderTypes.forEach(el => {
       this.filters.orderTypes.push({ type: el, checked: false, num: i });
       i++
@@ -67,18 +70,24 @@ class Filters {
       payTypes: []
     };
     this.filters.payTypes.forEach(el => {
-      if (el.checked) filter.payTypes.push(el.type);
+      if (el.checked)
+        if (el.type === "null") filter.payTypes.push(null);
+        else filter.payTypes.push(el.type);
     });
     if (!this.filters.discountTypes[0].checked) {
       filter.discountTypes = [];
       this.filters.discountTypes.forEach(el => {
-        if (el.checked) filter.discountTypes.push(el.type);
+        if (el.checked)
+          if (el.type === "null") filter.discountTypes.push(null);
+          else filter.discountTypes.push(el.type);
       })
     }
     if (!this.filters.orderTypes[0].checked) {
       filter.orderTypes = [];
       this.filters.orderTypes.forEach(el => {
-        if (el.checked) filter.orderTypes.push(el.type);
+        if (el.checked)
+          if (el.type === "null") filter.orderTypes.push(null);
+          else filter.orderTypes.push(el.type);
       })
     }
     return filter;
