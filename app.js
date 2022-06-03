@@ -1,5 +1,6 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
+const exphbs = require('express-handlebars')
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { runWorker, syncData, updateLinks } = require("./src/objects/worker");
@@ -196,6 +197,11 @@ const main = async () => {
 
         context.targets.makeEmptyTargets(context.branches.getBranches(), template);
         context.filters.update(req.body["pay"], req.body["disc"], req.body["ord"]);
+        const obj = {
+            filters: context.filters.filters,
+            targets: context.targets.allTargets
+        }
+        fs.writeFileSync('options.conf', JSON.stringify(obj));
         res.render('protected', {data: getProtectedData(context), categories: context.categories.getCategories(),
                 filters: context.filters.getFilters()});
     });

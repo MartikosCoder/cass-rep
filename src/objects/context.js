@@ -4,22 +4,30 @@ const { Categories } = require("./categories");
 const { Targets } = require("./targets");
 const { Purchases } = require("./purchases");
 const { Links } = require("./links");
-const { Filters } = require("./filters")
+const { Filters } = require("./filters");
+const fs = require("fs");
 
 const initContext = async () => {
   let context = {};
+  context.filters = new Filters();
   context.branches = new Branches();
   context.categories = new Categories();
   context.targets = new Targets();
   context.purchases = new Purchases();
   context.links = new Links();
   context.iiko = new Iiko();
-  context.filters = new Filters();
   context.inProcess = true;
   await formData(context);
-  context.connected = true;
-  context.inProcess = false;
-  return context;
+  try {
+    const data = fs.readFileSync('options.conf');
+    const obj = JSON.parse(data);
+    context.filters.filters = obj.filters;
+    context.targets.allTargets = obj.targets;
+  } finally {
+    context.connected = true;
+    context.inProcess = false;
+    return context;
+  }
 }
 
 const formData = async (context) => {

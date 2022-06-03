@@ -15,7 +15,8 @@ const getRepo = async (startDate, endDate, filters, department, token, iikoServe
     "groupByRowFields": [
       "Cashier",
       "Department",
-      "DishCategory.Accounting"
+      "DishCategory.Accounting",
+      "OrderNum"
     ],
     "aggregateFields": [
       "DishAmountInt"
@@ -59,7 +60,7 @@ const getRepo = async (startDate, endDate, filters, department, token, iikoServe
       values: filters.orderTypes
     }
   }
-  console.log(data);
+  // console.log(data);
   try {
     const result = await axios.post(`${iikoServer}/v2/reports/olap?reportType=SALES&key=${token}`, data, config);
     const str = `Get purchases: ${department}\n`;
