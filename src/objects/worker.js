@@ -30,6 +30,7 @@ const syncData = async(context, app) => {
     context.connected = false;
     context.inProcess = true;
     await context.iiko.getToken();
+    await context.filters.getInstant(context.iiko);
     await context.branches.update(context.iiko);
     context.targets.makeEmptyTargets(context.branches.getBranches());
     await context.categories.update(context.iiko);

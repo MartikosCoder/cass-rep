@@ -14,6 +14,14 @@ class Filters {
 
   async getInstant(iiko) {
     const filterTemplates = await iiko.getFilters();
+    this.filters = {
+      payTypes: [
+        { type: "не указано", checked: false, num: 0 },
+        { type: "(без оплаты)", checked: false, num: 1 },
+      ],
+      discountTypes: [{ type: "не указано", checked: false, num: 0 }],
+      orderTypes: [{ type: "не указано", checked: false, num: 0 }]
+    }
     let i = 2;
     filterTemplates.payTypes.forEach(el => {
       this.filters.payTypes.push({ type: el, checked: false, num: i });
