@@ -86,12 +86,12 @@ class Filters {
     });
     this.filters.discountTypes.forEach(el => {
       if (el.checked)
-        if (el.type === "null") filter.discountTypes.push(null);
+        if (el.type === "не указано") filter.discountTypes.push("");
         else filter.discountTypes.push(el.type);
     });
     this.filters.orderTypes.forEach(el => {
       if (el.checked)
-        if (el.type === "null") filter.orderTypes.push(null);
+        if (el.type === "не указано") filter.orderTypes.push("");
         else filter.orderTypes.push(el.type);
     });
     return filter;
