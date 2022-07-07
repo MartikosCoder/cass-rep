@@ -70,7 +70,7 @@ class Targets {
     return item.targets;
   }
 
-  getDepartmentDishTarget = (department, dish) => {
+  getDepartmentDishTarget(department, dish) {
     let item1 = this.allTargets.find({ department: department });
     if (!item1) return null;
     let item2 = item1.find({ dish: dish });

@@ -75,29 +75,25 @@ class Filters {
 
   formQueryFilter() {
     const filter = {
-      payTypes: []
+      payTypes: [],
+      discountTypes: [],
+      orderTypes: []
     };
     this.filters.payTypes.forEach(el => {
       if (el.checked)
         if (el.type === "null") filter.payTypes.push(null);
         else filter.payTypes.push(el.type);
     });
-    if (!this.filters.discountTypes[0].checked) {
-      filter.discountTypes = [];
-      this.filters.discountTypes.forEach(el => {
-        if (el.checked)
-          if (el.type === "null") filter.discountTypes.push(null);
-          else filter.discountTypes.push(el.type);
-      })
-    }
-    if (!this.filters.orderTypes[0].checked) {
-      filter.orderTypes = [];
-      this.filters.orderTypes.forEach(el => {
-        if (el.checked)
-          if (el.type === "null") filter.orderTypes.push(null);
-          else filter.orderTypes.push(el.type);
-      })
-    }
+    this.filters.discountTypes.forEach(el => {
+      if (el.checked)
+        if (el.type === "null") filter.discountTypes.push(null);
+        else filter.discountTypes.push(el.type);
+    });
+    this.filters.orderTypes.forEach(el => {
+      if (el.checked)
+        if (el.type === "null") filter.orderTypes.push(null);
+        else filter.orderTypes.push(el.type);
+    });
     return filter;
   }
 }
