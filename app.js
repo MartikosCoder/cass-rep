@@ -10,6 +10,8 @@ const crypto = require('crypto');
 const app = express();
 const authTokens = {};
 
+app.use(express.static(__dirname));
+
 const { siteUser, sitePassword } = require('./src/consts/creds');
 
 const getHashedPassword = (password) => {

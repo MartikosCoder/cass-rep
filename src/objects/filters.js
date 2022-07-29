@@ -80,19 +80,19 @@ class Filters {
       orderTypes: []
     };
     this.filters.payTypes.forEach(el => {
-      if (el.checked)
-        if (el.type === "null") filter.payTypes.push(null);
-        else filter.payTypes.push(el.type);
+      if (el.checked) return;
+
+      filter.payTypes.push(el.type === "null" ? null : el.type);
     });
     this.filters.discountTypes.forEach(el => {
-      if (el.checked)
-        if (el.type === "не указано") filter.discountTypes.push("");
-        else filter.discountTypes.push(el.type);
+      if (el.checked) return;
+
+      filter.discountTypes.push(el.type === "не указано" ? "" : el.type);
     });
     this.filters.orderTypes.forEach(el => {
-      if (el.checked)
-        if (el.type === "не указано") filter.orderTypes.push("");
-        else filter.orderTypes.push(el.type);
+      if (el.checked) return;
+
+      filter.orderTypes.push(el.type === "не указано" ? "" : el.type);
     });
     return filter;
   }

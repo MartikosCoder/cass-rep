@@ -44,23 +44,22 @@ const getRepo = async (startDate, endDate, filters, department, token, iikoServe
   }
   if (filters.payTypes && filters.payTypes.length) {
     data.filters["PayTypes"] = {
-      filterType: "IncludeValues",
+      filterType: "ExcludeValues",
       values: filters.payTypes
     }
   }
   if (filters.discountTypes && filters.discountTypes.length) {
     data.filters["OrderDiscount.Type"] = {
-      filterType: "IncludeValues",
+      filterType: "ExcludeValues",
       values: filters.discountTypes
     }
   }
   if (filters.orderTypes && filters.orderTypes.length) {
     data.filters["OrderType"] = {
-      filterType: "IncludeValues",
+      filterType: "ExcludeValues",
       values: filters.orderTypes
     }
   }
-  // console.log(data);
   try {
     const result = await axios.post(`${iikoServer}/v2/reports/olap?reportType=SALES&key=${token}`, data, config);
     const str = `Get purchases: ${department}\n`;
